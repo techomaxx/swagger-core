@@ -1,8 +1,7 @@
-package io.swagger.util;
+package io.swagger.models.utils;
 
 import io.swagger.models.ArrayModel;
 import io.swagger.models.ComposedModel;
-import io.swagger.models.ExternalDocs;
 import io.swagger.models.Model;
 import io.swagger.models.ModelImpl;
 import io.swagger.models.RefModel;
@@ -13,12 +12,8 @@ import io.swagger.models.properties.ObjectProperty;
 import io.swagger.models.properties.Property;
 import io.swagger.models.properties.RefProperty;
 
-import java.lang.ref.Reference;
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -42,26 +37,24 @@ public class PropertyModelConverter {
             if(m.getExample() != null) {
                 property.setExample(m.getExample().toString());
             }
-
             return property;
-        }
-        if(model instanceof ArrayModel) {
+
+        } else if(model instanceof ArrayModel) {
             ArrayModel m = (ArrayModel) model;
             ArrayProperty property = new ArrayProperty();
             Property inner = m.getItems();
             property.setItems(inner);
             property.setDescription(m.getDescription());
             property.setTitle(m.getTitle());
-
             return property;
-        }
-        if(model instanceof RefModel) {
+
+        } else if(model instanceof RefModel) {
             RefModel ref = (RefModel) model;
             RefProperty refProperty = new RefProperty(ref.getSimpleRef());
             refProperty.setName(ref.getSimpleRef());
             return refProperty;
-        }
-        if(model instanceof ComposedModel) {
+
+        } else if(model instanceof ComposedModel) {
             ObjectProperty objectProperty = new ObjectProperty();
             objectProperty.setDescription(model.getDescription());
             objectProperty.setTitle(model.getTitle());
@@ -96,6 +89,7 @@ public class PropertyModelConverter {
                 }
             }
             return objectProperty;
+
         }
         return null;
     }

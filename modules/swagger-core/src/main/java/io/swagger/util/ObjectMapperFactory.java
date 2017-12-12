@@ -7,7 +7,17 @@ import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.jackson.mixin.ResponseSchemaMixin;
+import io.swagger.models.Response;
+import io.swagger.models.Swagger;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class ObjectMapperFactory {
 
@@ -36,6 +46,8 @@ public class ObjectMapperFactory {
         mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        mapper.addMixIn(Response.class, ResponseSchemaMixin.class);
 
         return mapper;
     }

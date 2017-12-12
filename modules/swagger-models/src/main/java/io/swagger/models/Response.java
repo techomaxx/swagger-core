@@ -3,7 +3,7 @@ package io.swagger.models;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import io.swagger.models.properties.Property;
-import io.swagger.util.PropertyModelConverter;
+import io.swagger.models.utils.PropertyModelConverter;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -15,17 +15,6 @@ public class Response {
     private Map<String, Object> examples;
     private Map<String, Property> headers;
     private Map<String, Object> vendorExtensions = new LinkedHashMap<String, Object>();
-
-    @Deprecated
-    public Response schema(Property property) {
-        this.setSchema(property);
-        return this;
-    }
-
-    public Response responseSchema(Model model) {
-        this.setResponseSchema(model);
-        return this;
-    }
 
     public Response description(String description) {
         this.setDescription(description);
@@ -63,25 +52,10 @@ public class Response {
         this.description = description;
     }
 
-
-    public Model getResponseSchema() {
-        if(schemaAsModel == null){
-            PropertyModelConverter converter = new PropertyModelConverter();
-            schemaAsModel = converter.propertyToModel(schemaAsProperty);
-        }
-        return schemaAsModel;
-    }
-
-
-    public void setResponseSchema(Model model) {
-        this.schemaAsModel = model;
-    }
-
     @Deprecated
     public Property getSchema() {
-        if (schemaAsProperty == null) {
-            PropertyModelConverter converter = new PropertyModelConverter();
-            schemaAsProperty = converter.modelToProperty(schemaAsModel);
+        if (schemaAsProperty == null && schemaAsModel != null) {
+            return new PropertyModelConverter().modelToProperty(schemaAsModel);
         }
         return schemaAsProperty;
     }
@@ -89,6 +63,28 @@ public class Response {
     @Deprecated
     public void setSchema(Property schema) {
         this.schemaAsProperty = schema;
+    }
+
+    @Deprecated
+    public Response schema(Property property) {
+        this.setSchema(property);
+        return this;
+    }
+
+    public Model getResponseSchema() {
+        if(schemaAsModel == null && schemaAsProperty != null) {
+            return new PropertyModelConverter().propertyToModel(schemaAsProperty);
+        }
+        return schemaAsModel;
+    }
+
+    public void setResponseSchema(Model model) {
+        this.schemaAsModel = model;
+    }
+
+    public Response responseSchema(Model model) {
+        this.setResponseSchema(model);
+        return this;
     }
 
     public Map<String, Object> getExamples() {

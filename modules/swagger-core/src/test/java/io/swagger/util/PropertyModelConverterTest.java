@@ -19,6 +19,7 @@ import io.swagger.models.properties.ObjectProperty;
 import io.swagger.models.properties.Property;
 import io.swagger.models.properties.RefProperty;
 import io.swagger.models.properties.StringProperty;
+import io.swagger.models.utils.PropertyModelConverter;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
