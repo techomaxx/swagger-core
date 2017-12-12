@@ -26,29 +26,16 @@ public class PropertyModelConverter {
 
         if(model instanceof ModelImpl) {
             ModelImpl m = (ModelImpl) model;
-
             return propertyByType(m);
-            /*ObjectProperty property = new ObjectProperty();
-            property.setProperties(m.getProperties());
-            property.setName(m.getName());
-            property.setFormat(m.getFormat());
-            if(m.getDefaultValue() != null) {
-                property.setDefault(m.getDefaultValue().toString());
-            }
-            property.setDescription(m.getDescription());
-            property.setTitle(m.getTitle());
-            property.setXml(m.getXml());
-
-            if(m.getExample() != null) {
-                property.setExample(m.getExample().toString());
-            }
-            return property;*/
 
         } else if(model instanceof ArrayModel) {
             ArrayModel m = (ArrayModel) model;
             ArrayProperty property = new ArrayProperty();
             Property inner = m.getItems();
             property.setItems(inner);
+            property.setExample(m.getExample());
+            property.setMaxItems(m.getMaxItems());
+            property.setMinItems(m.getMinItems());
             property.setDescription(m.getDescription());
             property.setTitle(m.getTitle());
             return property;
