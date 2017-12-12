@@ -1,6 +1,7 @@
 package io.swagger.properties;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.swagger.matchers.SerializationMatchers;
 import io.swagger.models.Operation;
 import io.swagger.models.Response;
 import io.swagger.models.properties.IntegerProperty;
@@ -92,6 +93,26 @@ public class MapPropertyDeserializerTest {
                 "              id: 42\n" +
                 "              name: Arthur Dent\n", Operation.class);
 
+       String yaml = "      produces:\n" +
+               "        - application/json\n" +
+               "      parameters:\n" +
+               "        []\n" +
+               "      responses:\n" +
+               "        200:\n" +
+               "          description: OK\n" +
+               "          schema:\n" +
+               "            type: object\n" +
+               "            properties:\n" +
+               "              id:\n" +
+               "                type: integer\n" +
+               "                format: int32\n" +
+               "              name:\n" +
+               "                type: string\n" +
+               "            required: [id, name]\n" +
+               "            example:\n" +
+               "              id: 42\n" +
+               "              name: Arthur Dent\n";
+
         Response response = operation.getResponses().get("200");
         assertNotNull(response);
         Property schema = response.getSchema();
@@ -101,5 +122,6 @@ public class MapPropertyDeserializerTest {
         LinkedHashMap exampleMap = (LinkedHashMap) example;
         assertEquals(exampleMap.get("id"), 42);
         assertEquals(exampleMap.get("name"), "Arthur Dent");
+        SerializationMatchers.assertEqualsToYaml(operation, yaml);
     }
 }
