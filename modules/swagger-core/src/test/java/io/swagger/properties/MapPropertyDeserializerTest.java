@@ -10,6 +10,8 @@ import io.swagger.util.Json;
 import io.swagger.util.Yaml;
 import org.testng.annotations.Test;
 
+import java.util.LinkedHashMap;
+
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
@@ -95,9 +97,9 @@ public class MapPropertyDeserializerTest {
         Property schema = response.getSchema();
         Object example = schema.getExample();
         assertNotNull(example);
-        assertTrue(example instanceof ObjectNode);
-        ObjectNode objectNode = (ObjectNode) example;
-        assertEquals(objectNode.get("id").intValue(), 42);
-        assertEquals(objectNode.get("name").textValue(), "Arthur Dent");
+        assertTrue(example instanceof LinkedHashMap);
+        LinkedHashMap exampleMap = (LinkedHashMap) example;
+        assertEquals(exampleMap.get("id"), 42);
+        assertEquals(exampleMap.get("name"), "Arthur Dent");
     }
 }
