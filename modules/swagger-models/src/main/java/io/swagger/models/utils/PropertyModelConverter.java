@@ -10,9 +10,12 @@ import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.ObjectProperty;
 import io.swagger.models.properties.Property;
+import io.swagger.models.properties.PropertyBuilder;
 import io.swagger.models.properties.RefProperty;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -23,7 +26,9 @@ public class PropertyModelConverter {
 
         if(model instanceof ModelImpl) {
             ModelImpl m = (ModelImpl) model;
-            ObjectProperty property = new ObjectProperty();
+
+            return PropertyByType(m);
+            /*ObjectProperty property = new ObjectProperty();
             property.setProperties(m.getProperties());
             property.setName(m.getName());
             property.setFormat(m.getFormat());
@@ -37,7 +42,7 @@ public class PropertyModelConverter {
             if(m.getExample() != null) {
                 property.setExample(m.getExample().toString());
             }
-            return property;
+            return property;*/
 
         } else if(model instanceof ArrayModel) {
             ArrayModel m = (ArrayModel) model;
@@ -93,6 +98,42 @@ public class PropertyModelConverter {
         }
         return null;
     }
+
+    private Property PropertyByType(ModelImpl model) {
+        return PropertyBuilder.build(model.getType(), model.getFormat(), argsFromModel(model));
+    }
+
+    private Map<PropertyBuilder.PropertyId, Object> argsFromModel(ModelImpl model) {
+        if (model == null) return Collections.emptyMap();
+        final Map<PropertyBuilder.PropertyId, Object> args = new EnumMap<>(PropertyBuilder.PropertyId.class);
+        args.put(PropertyBuilder.PropertyId.TYPE, model.getType());
+        args.put(PropertyBuilder.PropertyId.FORMAT, model.getFormat());
+        args.put(PropertyBuilder.PropertyId.DESCRIPTION, model.getDescription());
+        args.put(PropertyBuilder.PropertyId.EXAMPLE, model.getExample());
+        args.put(PropertyBuilder.PropertyId.ENUM, model.getEnum());
+        args.put(PropertyBuilder.PropertyId.TITLE, model.getTitle());
+        args.put(PropertyBuilder.PropertyId.DEFAULT, model.getDefaultValue());
+        //args.put(PropertyBuilder.PropertyId.PATTERN, model.getP);
+        args.put(PropertyBuilder.PropertyId.DESCRIMINATOR, model.getDiscriminator());
+        //args.put(PropertyBuilder.PropertyId.MIN_ITEMS, model.get);
+        //args.put(PropertyBuilder.PropertyId.MAX_ITEMS, getInteger(node, PropertyBuilder.PropertyId.MAX_ITEMS));
+        //args.put(PropertyBuilder.PropertyId.MIN_PROPERTIES, getInteger(node, PropertyBuilder.PropertyId.MIN_PROPERTIES));
+        //args.put(PropertyBuilder.PropertyId.MAX_PROPERTIES, getInteger(node, PropertyBuilder.PropertyId.MAX_PROPERTIES));
+        //args.put(PropertyBuilder.PropertyId.MIN_LENGTH, getInteger(node, PropertyBuilder.PropertyId.MIN_LENGTH));
+        //args.put(PropertyBuilder.PropertyId.MAX_LENGTH, getInteger(node, PropertyBuilder.PropertyId.MAX_LENGTH));
+        args.put(PropertyBuilder.PropertyId.MINIMUM, model.getMinimum());
+        args.put(PropertyBuilder.PropertyId.MAXIMUM, model.getMaximum());
+        //args.put(PropertyBuilder.PropertyId.MULTIPLE_OF,model.get);
+        //args.put(PropertyBuilder.PropertyId.EXCLUSIVE_MINIMUM, getBoolean(node, PropertyBuilder.PropertyId.EXCLUSIVE_MINIMUM));
+        //args.put(PropertyBuilder.PropertyId.EXCLUSIVE_MAXIMUM, getBoolean(node, PropertyBuilder.PropertyId.EXCLUSIVE_MAXIMUM));
+        args.put(PropertyBuilder.PropertyId.UNIQUE_ITEMS, model.getUniqueItems());
+        //args.put(PropertyBuilder.PropertyId.READ_ONLY, model.getRe);
+        args.put(PropertyBuilder.PropertyId.VENDOR_EXTENSIONS, model.getVendorExtensions());
+        return args;
+    }
+
+
+
 
     public Model propertyToModel(Property property){
 
