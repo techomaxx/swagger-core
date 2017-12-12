@@ -42,7 +42,14 @@ public class PropertyModelConverter {
                 mapProperty.setAdditionalProperties(m.getAdditionalProperties());
                 return mapProperty;
             }
-            return propertyByType(m);
+            Property property = propertyByType(m);
+            if(property instanceof ObjectProperty){
+                ObjectProperty objectProperty = (ObjectProperty) property;
+                objectProperty.setProperties(model.getProperties());
+                return objectProperty;
+            }
+
+            return property;
 
         } else if(model instanceof ArrayModel) {
             ArrayModel m = (ArrayModel) model;
