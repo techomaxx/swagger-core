@@ -27,7 +27,7 @@ public class PropertyModelConverter {
         if(model instanceof ModelImpl) {
             ModelImpl m = (ModelImpl) model;
 
-            return PropertyByType(m);
+            return propertyByType(m);
             /*ObjectProperty property = new ObjectProperty();
             property.setProperties(m.getProperties());
             property.setName(m.getName());
@@ -99,15 +99,13 @@ public class PropertyModelConverter {
         return null;
     }
 
-    private Property PropertyByType(ModelImpl model) {
+    private Property propertyByType(ModelImpl model) {
         return PropertyBuilder.build(model.getType(), model.getFormat(), argsFromModel(model));
     }
 
     private Map<PropertyBuilder.PropertyId, Object> argsFromModel(ModelImpl model) {
         if (model == null) return Collections.emptyMap();
         final Map<PropertyBuilder.PropertyId, Object> args = new EnumMap<>(PropertyBuilder.PropertyId.class);
-        args.put(PropertyBuilder.PropertyId.TYPE, model.getType());
-        args.put(PropertyBuilder.PropertyId.FORMAT, model.getFormat());
         args.put(PropertyBuilder.PropertyId.DESCRIPTION, model.getDescription());
         args.put(PropertyBuilder.PropertyId.EXAMPLE, model.getExample());
         args.put(PropertyBuilder.PropertyId.ENUM, model.getEnum());
