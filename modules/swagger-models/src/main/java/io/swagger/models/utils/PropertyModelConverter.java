@@ -26,6 +26,22 @@ public class PropertyModelConverter {
 
         if(model instanceof ModelImpl) {
             ModelImpl m = (ModelImpl) model;
+            if (m.getAdditionalProperties() != null){
+                MapProperty mapProperty = new MapProperty();
+                mapProperty.setType(m.getType());
+                mapProperty.setAllowEmptyValue(m.getAllowEmptyValue());
+                //mapProperty.setDefault(m.getDefaultValue().toString());
+                mapProperty.setDescription(m.getDescription());
+                mapProperty.setExample(m.getExample());
+                mapProperty.setFormat(m.getFormat());
+                mapProperty.setName(m.getName());
+                mapProperty.setTitle(m.getTitle());
+                //mapProperty.setRequired(m.getRequired()); loop
+                mapProperty.setXml(m.getXml());
+                mapProperty.setVendorExtensions(m.getVendorExtensions());
+                mapProperty.setAdditionalProperties(m.getAdditionalProperties());
+                return mapProperty;
+            }
             return propertyByType(m);
 
         } else if(model instanceof ArrayModel) {
@@ -166,6 +182,7 @@ public class PropertyModelConverter {
         Map<String, Object> extensions = property.getVendorExtensions();
 
         Property additionalProperties = null;
+
         if (property instanceof MapProperty) {
              additionalProperties = ((MapProperty) property).getAdditionalProperties();
         }
