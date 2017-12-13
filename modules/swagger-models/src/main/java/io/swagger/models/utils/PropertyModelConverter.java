@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -30,13 +31,20 @@ public class PropertyModelConverter {
                 MapProperty mapProperty = new MapProperty();
                 mapProperty.setType(m.getType());
                 mapProperty.setAllowEmptyValue(m.getAllowEmptyValue());
-                //mapProperty.setDefault(m.getDefaultValue().toString());
+                mapProperty.setDefault((String) m.getDefaultValue());
                 mapProperty.setDescription(m.getDescription());
                 mapProperty.setExample(m.getExample());
                 mapProperty.setFormat(m.getFormat());
                 mapProperty.setName(m.getName());
                 mapProperty.setTitle(m.getTitle());
-                //mapProperty.setRequired(m.getRequired()); loop
+                List<String> required = m.getRequired();
+                if (required != null) {
+                    for (String name : required) {
+                        if (m.getName().equals(name)) {
+                            mapProperty.setRequired(true);
+                        }
+                    }
+                }
                 mapProperty.setXml(m.getXml());
                 mapProperty.setVendorExtensions(m.getVendorExtensions());
                 mapProperty.setAdditionalProperties(m.getAdditionalProperties());
