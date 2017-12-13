@@ -14,6 +14,7 @@ import io.swagger.models.Response;
 import io.swagger.models.Swagger;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.IntegerProperty;
+import io.swagger.models.properties.LongProperty;
 import io.swagger.models.properties.MapProperty;
 import io.swagger.models.properties.ObjectProperty;
 import io.swagger.models.properties.Property;
@@ -30,6 +31,85 @@ import java.util.List;
 import java.util.Map;
 
 public class PropertyModelConverterTest {
+
+    @Test
+    public void convertToLongProperty()throws Exception{
+        String yaml = "      produces:\n" +
+                "        - application/json\n" +
+                "      parameters:\n" +
+                "        []\n" +
+                "      responses:\n" +
+                "        200:\n" +
+                "          description: OK\n" +
+                "          schema:\n" +
+                "            type: integer\n"+
+                "            format: int64\n";
+
+        Operation operation = Yaml.mapper().readValue(yaml, Operation.class);
+        Response response = operation.getResponses().get("200");
+        Assert.assertNotNull(response);
+        Property property = response.getSchema();
+
+        Assert.assertTrue(property instanceof LongProperty);
+        Assert.assertEquals(property.getType(),"integer");
+        Assert.assertEquals(property.getFormat(),"int64");
+
+    }
+
+    @Test
+    public void convertToIntegerProperty()throws Exception{
+        String yaml = "      produces:\n" +
+                "        - application/json\n" +
+                "      parameters:\n" +
+                "        []\n" +
+                "      responses:\n" +
+                "        200:\n" +
+                "          description: OK\n" +
+                "          schema:\n" +
+                "            type: integer\n"+
+                "            format: int32\n";
+
+        Operation operation = Yaml.mapper().readValue(yaml, Operation.class);
+        Response response = operation.getResponses().get("200");
+        Assert.assertNotNull(response);
+        Property property = response.getSchema();
+
+        Assert.assertTrue(property instanceof IntegerProperty);
+        Assert.assertEquals(property.getType(),"integer");
+        Assert.assertEquals(property.getFormat(),"int32");
+
+    }
+
+    @Test
+    public void convertToArrayProperty()throws Exception{
+        String yaml = "      produces:\n" +
+                "        - application/json\n" +
+                "      parameters:\n" +
+                "        []\n" +
+                "      responses:\n" +
+                "        200:\n" +
+                "          description: OK\n" +
+                "          schema:\n" +
+                "            type: array\n" +
+                "            items:\n" +
+                "              type: string\n" +
+                "              format: date-time\n" +
+                "              example: 1985-04-12T23:20:50.52Z";
+
+        Operation operation = Yaml.mapper().readValue(yaml, Operation.class);
+        Response response = operation.getResponses().get("200");
+        Assert.assertNotNull(response);
+        Property property = response.getSchema();
+
+        Assert.assertTrue(property instanceof ArrayProperty);
+        ArrayProperty arrayProperty = (ArrayProperty) property;
+        Assert.assertEquals(property.getType(),"array");
+        Assert.assertEquals(arrayProperty.getItems().getType(),"string");
+        Assert.assertEquals(arrayProperty.getItems().getFormat(),"date-time");
+        Assert.assertEquals(arrayProperty.getItems().getExample(),"1985-04-12T23:20:50.52Z");
+
+    }
+
 
     @Test
     public void convertArrayModel()throws Exception{
