@@ -1,6 +1,5 @@
 package io.swagger.properties;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.swagger.matchers.SerializationMatchers;
 import io.swagger.models.Operation;
 import io.swagger.models.Response;
@@ -75,25 +74,7 @@ public class MapPropertyDeserializerTest {
 
     @Test(description = "it should read an example within an inlined schema")
     public void testIssue1261InlineSchemaExample() throws Exception {
-        Operation operation = Yaml.mapper().readValue("      produces:\n" +
-                "        - application/json\n" +
-                "      responses:\n" +
-                "        200:\n" +
-                "          description: OK\n" +
-                "          schema:\n" +
-                "            type: object\n" +
-                "            properties:\n" +
-                "              id:\n" +
-                "                type: integer\n" +
-                "                format: int32\n" +
-                "              name:\n" +
-                "                type: string\n" +
-                "            required: [id, name]\n" +
-                "            example:\n" +
-                "              id: 42\n" +
-                "              name: Arthur Dent\n", Operation.class);
-
-       String yaml = "      produces:\n" +
+        String yaml = "      produces:\n" +
                "        - application/json\n" +
                "      parameters:\n" +
                "        []\n" +
@@ -113,6 +94,7 @@ public class MapPropertyDeserializerTest {
                "              id: 42\n" +
                "              name: Arthur Dent\n";
 
+        Operation operation = Yaml.mapper().readValue(yaml, Operation.class);
         Response response = operation.getResponses().get("200");
         assertNotNull(response);
         Property schema = response.getSchema();
