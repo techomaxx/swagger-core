@@ -13,6 +13,13 @@ import io.swagger.models.RefModel;
 import io.swagger.models.Response;
 import io.swagger.models.Swagger;
 import io.swagger.models.properties.ArrayProperty;
+import io.swagger.models.properties.BinaryProperty;
+import io.swagger.models.properties.BooleanProperty;
+import io.swagger.models.properties.ByteArrayProperty;
+import io.swagger.models.properties.DateProperty;
+import io.swagger.models.properties.DateTimeProperty;
+import io.swagger.models.properties.DoubleProperty;
+import io.swagger.models.properties.EmailProperty;
 import io.swagger.models.properties.IntegerProperty;
 import io.swagger.models.properties.LongProperty;
 import io.swagger.models.properties.MapProperty;
@@ -20,6 +27,7 @@ import io.swagger.models.properties.ObjectProperty;
 import io.swagger.models.properties.Property;
 import io.swagger.models.properties.RefProperty;
 import io.swagger.models.properties.StringProperty;
+import io.swagger.models.properties.UUIDProperty;
 import io.swagger.models.utils.PropertyModelConverter;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -31,6 +39,215 @@ import java.util.List;
 import java.util.Map;
 
 public class PropertyModelConverterTest {
+
+    @Test
+    public void convertToUUIDProperty()throws Exception{
+        String yaml = "      produces:\n" +
+                "        - application/json\n" +
+                "      parameters:\n" +
+                "        []\n" +
+                "      responses:\n" +
+                "        200:\n" +
+                "          description: OK\n" +
+                "          schema:\n" +
+                "            type: string\n"+
+                "            format: uuid\n";
+
+        Operation operation = Yaml.mapper().readValue(yaml, Operation.class);
+        Response response = operation.getResponses().get("200");
+        Assert.assertNotNull(response);
+        Property property = response.getSchema();
+
+        Assert.assertTrue(property instanceof UUIDProperty);
+        Assert.assertEquals(property.getType(),"string");
+        Assert.assertEquals(property.getFormat(),"uuid");
+
+    }
+
+    @Test
+    public void convertToEmailProperty()throws Exception{
+        String yaml = "      produces:\n" +
+                "        - application/json\n" +
+                "      parameters:\n" +
+                "        []\n" +
+                "      responses:\n" +
+                "        200:\n" +
+                "          description: OK\n" +
+                "          schema:\n" +
+                "            type: string\n"+
+                "            format: email\n";
+
+        Operation operation = Yaml.mapper().readValue(yaml, Operation.class);
+        Response response = operation.getResponses().get("200");
+        Assert.assertNotNull(response);
+        Property property = response.getSchema();
+
+        Assert.assertTrue(property instanceof EmailProperty);
+        Assert.assertEquals(property.getType(),"string");
+        Assert.assertEquals(property.getFormat(),"email");
+
+    }
+
+    @Test
+    public void convertToBooleanProperty()throws Exception{
+        String yaml = "      produces:\n" +
+                "        - application/json\n" +
+                "      parameters:\n" +
+                "        []\n" +
+                "      responses:\n" +
+                "        200:\n" +
+                "          description: OK\n" +
+                "          schema:\n" +
+                "            type: boolean\n";
+
+        Operation operation = Yaml.mapper().readValue(yaml, Operation.class);
+        Response response = operation.getResponses().get("200");
+        Assert.assertNotNull(response);
+        Property property = response.getSchema();
+
+        Assert.assertTrue(property instanceof BooleanProperty);
+        Assert.assertEquals(property.getType(),"boolean");
+
+    }
+
+    @Test
+    public void convertToDateProperty()throws Exception{
+        String yaml = "      produces:\n" +
+                "        - application/json\n" +
+                "      parameters:\n" +
+                "        []\n" +
+                "      responses:\n" +
+                "        200:\n" +
+                "          description: OK\n" +
+                "          schema:\n" +
+                "            type: string\n"+
+                "            format: date\n";
+
+        Operation operation = Yaml.mapper().readValue(yaml, Operation.class);
+        Response response = operation.getResponses().get("200");
+        Assert.assertNotNull(response);
+        Property property = response.getSchema();
+
+        Assert.assertTrue(property instanceof DateProperty);
+        Assert.assertEquals(property.getType(),"string");
+        Assert.assertEquals(property.getFormat(),"date");
+    }
+
+    @Test
+    public void convertToDateTimeProperty()throws Exception{
+        String yaml = "      produces:\n" +
+                "        - application/json\n" +
+                "      parameters:\n" +
+                "        []\n" +
+                "      responses:\n" +
+                "        200:\n" +
+                "          description: OK\n" +
+                "          schema:\n" +
+                "            type: string\n"+
+                "            format: date-time\n";
+
+        Operation operation = Yaml.mapper().readValue(yaml, Operation.class);
+        Response response = operation.getResponses().get("200");
+        Assert.assertNotNull(response);
+        Property property = response.getSchema();
+
+        Assert.assertTrue(property instanceof DateTimeProperty);
+        Assert.assertEquals(property.getType(),"string");
+        Assert.assertEquals(property.getFormat(),"date-time");
+    }
+
+    @Test
+    public void convertToStringProperty()throws Exception{
+        String yaml = "      produces:\n" +
+                "        - application/json\n" +
+                "      parameters:\n" +
+                "        []\n" +
+                "      responses:\n" +
+                "        200:\n" +
+                "          description: OK\n" +
+                "          schema:\n" +
+                "            type: string\n"+
+                "            format: password\n";
+
+        Operation operation = Yaml.mapper().readValue(yaml, Operation.class);
+        Response response = operation.getResponses().get("200");
+        Assert.assertNotNull(response);
+        Property property = response.getSchema();
+
+        Assert.assertTrue(property instanceof StringProperty);
+        Assert.assertEquals(property.getType(),"string");
+        Assert.assertEquals(property.getFormat(),"password");
+    }
+
+    @Test
+    public void convertToBinaryProperty()throws Exception{
+        String yaml = "      produces:\n" +
+                "        - application/json\n" +
+                "      parameters:\n" +
+                "        []\n" +
+                "      responses:\n" +
+                "        200:\n" +
+                "          description: OK\n" +
+                "          schema:\n" +
+                "            type: string\n"+
+                "            format: binary\n";
+
+        Operation operation = Yaml.mapper().readValue(yaml, Operation.class);
+        Response response = operation.getResponses().get("200");
+        Assert.assertNotNull(response);
+        Property property = response.getSchema();
+
+        Assert.assertTrue(property instanceof BinaryProperty);
+        Assert.assertEquals(property.getType(),"string");
+        Assert.assertEquals(property.getFormat(),"binary");
+    }
+
+    @Test
+    public void convertToDoubleProperty()throws Exception{
+        String yaml = "      produces:\n" +
+                "        - application/json\n" +
+                "      parameters:\n" +
+                "        []\n" +
+                "      responses:\n" +
+                "        200:\n" +
+                "          description: OK\n" +
+                "          schema:\n" +
+                "            type: number\n"+
+                "            format: double\n";
+
+        Operation operation = Yaml.mapper().readValue(yaml, Operation.class);
+        Response response = operation.getResponses().get("200");
+        Assert.assertNotNull(response);
+        Property property = response.getSchema();
+
+        Assert.assertTrue(property instanceof DoubleProperty);
+        Assert.assertEquals(property.getType(),"number");
+        Assert.assertEquals(property.getFormat(),"double");
+
+    }
+
+    @Test
+    public void convertToByteArrayProperty()throws Exception{
+        String yaml = "      produces:\n" +
+                "        - application/json\n" +
+                "      parameters:\n" +
+                "        []\n" +
+                "      responses:\n" +
+                "        200:\n" +
+                "          description: OK\n" +
+                "          schema:\n" +
+                "            type: string\n"+
+                "            format: byte\n";
+
+        Operation operation = Yaml.mapper().readValue(yaml, Operation.class);
+        Response response = operation.getResponses().get("200");
+        Assert.assertNotNull(response);
+        Property property = response.getSchema();
+
+        Assert.assertTrue(property instanceof ByteArrayProperty);
+        Assert.assertEquals(property.getType(),"string");
+        Assert.assertEquals(property.getFormat(),"byte");
+    }
 
     @Test
     public void convertToLongProperty()throws Exception{
