@@ -7,17 +7,11 @@ import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import io.swagger.annotations.ApiResponse;
 import io.swagger.jackson.mixin.ResponseSchemaMixin;
 import io.swagger.models.Response;
-import io.swagger.models.Swagger;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+
+
 
 public class ObjectMapperFactory {
 
