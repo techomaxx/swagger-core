@@ -635,6 +635,7 @@ public class PropertyModelConverterTest {
         RefModel model = (RefModel) convertedModel;
         Assert.assertEquals(model.get$ref(),"#/definitions/ArrayOfint");
 
+
     }
 
     @Test

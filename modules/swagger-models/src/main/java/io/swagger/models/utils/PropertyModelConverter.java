@@ -73,8 +73,7 @@ public class PropertyModelConverter {
 
         } else if(model instanceof RefModel) {
             RefModel ref = (RefModel) model;
-            RefProperty refProperty = new RefProperty(ref.getSimpleRef());
-            refProperty.setName(ref.getSimpleRef());
+            RefProperty refProperty = new RefProperty(ref.get$ref());
             return refProperty;
 
         } else if(model instanceof ComposedModel) {
@@ -87,7 +86,8 @@ public class PropertyModelConverter {
             for(Model item : cm.getAllOf()) {
                 Property itemProperty = modelToProperty(item);
                 if(itemProperty instanceof RefProperty) {
-                    objectProperty.property(itemProperty.getName(), itemProperty);
+                    RefProperty refProperty = (RefProperty) itemProperty;
+                    objectProperty.property(refProperty.getSimpleRef(), itemProperty);
 
                 }else if(itemProperty instanceof ObjectProperty) {
                     ObjectProperty itemPropertyObject = (ObjectProperty) itemProperty;
@@ -189,8 +189,8 @@ public class PropertyModelConverter {
 
 
         if(property instanceof RefProperty){
-            String reference = ((RefProperty) property).get$ref();
-            RefModel refModel = new RefModel(reference);
+            RefProperty ref = (RefProperty) property;
+            RefModel refModel = new RefModel(ref.get$ref());
             return refModel;
         }
 
