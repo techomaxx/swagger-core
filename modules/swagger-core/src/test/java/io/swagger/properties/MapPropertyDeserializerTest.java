@@ -1,6 +1,8 @@
 package io.swagger.properties;
 
 import io.swagger.matchers.SerializationMatchers;
+import io.swagger.models.Model;
+import io.swagger.models.ModelImpl;
 import io.swagger.models.Operation;
 import io.swagger.models.Response;
 import io.swagger.models.properties.IntegerProperty;
@@ -49,12 +51,12 @@ public class MapPropertyDeserializerTest {
       Response response = operation.getResponses().get("200");
       assertNotNull(response);
       
-      Property responseSchema = response.getSchema();
+      Model responseSchema = response.getResponseSchema();
       assertNotNull(responseSchema);
-      assertTrue(responseSchema instanceof MapProperty);
-      
-      MapProperty mp = (MapProperty) responseSchema;
-      assertTrue(mp.getAdditionalProperties() instanceof IntegerProperty);
+      assertTrue(responseSchema instanceof ModelImpl);
+
+      ModelImpl modelImpl = (ModelImpl) responseSchema;
+      assertTrue(modelImpl.getAdditionalProperties() instanceof IntegerProperty);
   }
 
   @Test(description = "vendor extensions should be included with object type")
@@ -63,13 +65,13 @@ public class MapPropertyDeserializerTest {
     Response response = operation.getResponses().get("200");
     assertNotNull(response);
 
-    Property responseSchema = response.getSchema();
+    Model responseSchema = response.getResponseSchema();
     assertNotNull(responseSchema);
 
-    MapProperty mp = (MapProperty) responseSchema;
-    assertTrue(mp.getVendorExtensions().size() > 0);
-    assertNotNull(mp.getVendorExtensions().get("x-foo"));
-    assertEquals(mp.getVendorExtensions().get("x-foo"), "vendor x");
+    ModelImpl modelImpl = (ModelImpl) responseSchema;
+    assertTrue(modelImpl.getVendorExtensions().size() > 0);
+    assertNotNull(modelImpl.getVendorExtensions().get("x-foo"));
+    assertEquals(modelImpl.getVendorExtensions().get("x-foo"), "vendor x");
   }
 
     @Test(description = "it should read an example within an inlined schema")
@@ -97,7 +99,7 @@ public class MapPropertyDeserializerTest {
         Operation operation = Yaml.mapper().readValue(yaml, Operation.class);
         Response response = operation.getResponses().get("200");
         assertNotNull(response);
-        Property schema = response.getSchema();
+        Model schema = response.getResponseSchema();
         Object example = schema.getExample();
         assertNotNull(example);
         assertTrue(example instanceof LinkedHashMap);
