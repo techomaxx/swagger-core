@@ -54,6 +54,7 @@ public class PropertyModelConverter {
             if(property instanceof ObjectProperty){
                 ObjectProperty objectProperty = (ObjectProperty) property;
                 objectProperty.setProperties(model.getProperties());
+                objectProperty.setExample(model.getExample());
                 return objectProperty;
             }
 
