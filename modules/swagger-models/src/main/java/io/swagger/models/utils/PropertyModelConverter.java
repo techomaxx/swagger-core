@@ -70,6 +70,7 @@ public class PropertyModelConverter {
             property.setMinItems(m.getMinItems());
             property.setDescription(m.getDescription());
             property.setTitle(m.getTitle());
+            property.setUniqueItems(m.getUniqueItems());
             return property;
 
         } else if(model instanceof RefModel) {
@@ -130,21 +131,10 @@ public class PropertyModelConverter {
         args.put(PropertyBuilder.PropertyId.ENUM, model.getEnum());
         args.put(PropertyBuilder.PropertyId.TITLE, model.getTitle());
         args.put(PropertyBuilder.PropertyId.DEFAULT, model.getDefaultValue());
-        //args.put(PropertyBuilder.PropertyId.PATTERN, model.getP);
         args.put(PropertyBuilder.PropertyId.DESCRIMINATOR, model.getDiscriminator());
-        //args.put(PropertyBuilder.PropertyId.MIN_ITEMS, model.get);
-        //args.put(PropertyBuilder.PropertyId.MAX_ITEMS, getInteger(node, PropertyBuilder.PropertyId.MAX_ITEMS));
-        //args.put(PropertyBuilder.PropertyId.MIN_PROPERTIES, getInteger(node, PropertyBuilder.PropertyId.MIN_PROPERTIES));
-        //args.put(PropertyBuilder.PropertyId.MAX_PROPERTIES, getInteger(node, PropertyBuilder.PropertyId.MAX_PROPERTIES));
-        //args.put(PropertyBuilder.PropertyId.MIN_LENGTH, getInteger(node, PropertyBuilder.PropertyId.MIN_LENGTH));
-        //args.put(PropertyBuilder.PropertyId.MAX_LENGTH, getInteger(node, PropertyBuilder.PropertyId.MAX_LENGTH));
         args.put(PropertyBuilder.PropertyId.MINIMUM, model.getMinimum());
         args.put(PropertyBuilder.PropertyId.MAXIMUM, model.getMaximum());
-        //args.put(PropertyBuilder.PropertyId.MULTIPLE_OF,model.get);
-        //args.put(PropertyBuilder.PropertyId.EXCLUSIVE_MINIMUM, getBoolean(node, PropertyBuilder.PropertyId.EXCLUSIVE_MINIMUM));
-        //args.put(PropertyBuilder.PropertyId.EXCLUSIVE_MAXIMUM, getBoolean(node, PropertyBuilder.PropertyId.EXCLUSIVE_MAXIMUM));
         args.put(PropertyBuilder.PropertyId.UNIQUE_ITEMS, model.getUniqueItems());
-        //args.put(PropertyBuilder.PropertyId.READ_ONLY, model.getRe);
         args.put(PropertyBuilder.PropertyId.VENDOR_EXTENSIONS, model.getVendorExtensions());
         return args;
     }
@@ -165,29 +155,6 @@ public class PropertyModelConverter {
         }
 
         Boolean allowEmptyValue = property.getAllowEmptyValue();
-
-        //List<String> required = property.getRequired();
-
-        //Boolean uniqueItems = property.getUniqueItems(); ArrayProperty not in ArrayModel but yes in ModelImpl
-
-        //boolean isSimple = property.getSimple();
-
-        //String discriminator = property.getDiscriminator();
-
-        //String defaultValue = property.getDefaultValue(); UUIDProperty StringProperty BinaryProperty
-        // BooleanProperty(Boolean) - all numberProperties has a number default value
-
-        //List<String> _enum = property.getEnum();
-        // UUIDProperty StringProperty BinaryProperty DateProperty DateTimeProperty
-        // BooleanProperty(Boolean) DoubleProperty(Double) - all numberProperties has a number enum
-
-        //BigDecimal minimum = property.getMinimum; AbstractNumericProperty
-
-        //BigDecimal maximum = property.getMaximum; AbstractNumericProperty
-
-        //ExternalDocs externalDocs = property.getExternalDocs();
-
-
 
         if(property instanceof RefProperty){
             RefProperty ref = (RefProperty) property;
@@ -219,6 +186,8 @@ public class PropertyModelConverter {
             arrayModel.setItems(arrayProperty.getItems());
             arrayModel.setDescription(description);
             arrayModel.setExample(example);
+            arrayModel.setUniqueItems(arrayProperty.getUniqueItems());
+
             if(extensions != null) {
                 arrayModel.setVendorExtensions(extensions);
             }

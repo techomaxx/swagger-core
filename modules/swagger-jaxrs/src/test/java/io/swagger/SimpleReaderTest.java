@@ -432,18 +432,18 @@ public class SimpleReaderTest {
 
         Path paths2 = swagger.getPaths().get("/{id}/name");
         Map<String, Response> responses5 = paths2.getGet().getResponses();
-        assertEquals(responses5.get("203").getSchema().getClass(), ArrayProperty.class);
-        assertNull(((ArrayProperty) responses5.get("203").getSchema()).getUniqueItems());
+        assertEquals(responses5.get("203").getResponseSchema().getClass(), ArrayModel.class);
+        assertNull(((ArrayModel) responses5.get("203").getResponseSchema()).getUniqueItems());
         assertNotEquals(responses5.get("203").getHeaders().get("foo").getClass(), MapProperty.class);
-        assertEquals(responses5.get("403").getSchema().getClass(), ArrayProperty.class);
-        assertEquals(((ArrayProperty) responses5.get("403").getSchema()).getUniqueItems(), Boolean.TRUE);
+        assertEquals(responses5.get("403").getResponseSchema().getClass(), ArrayModel.class);
+        assertEquals(((ArrayModel) responses5.get("403").getResponseSchema()).getUniqueItems(), Boolean.TRUE);
 
         Map<String, Response> responses6 = paths2.getPut().getResponses();
-        assertEquals(responses6.get("203").getSchema().getClass(), ArrayProperty.class);
-        assertEquals(((ArrayProperty) responses6.get("203").getSchema()).getUniqueItems(), Boolean.TRUE);
+        assertEquals(responses6.get("203").getResponseSchema().getClass(), ArrayModel.class);
+        assertEquals(((ArrayModel) responses6.get("203").getResponseSchema()).getUniqueItems(), Boolean.TRUE);
         assertEquals(responses6.get("203").getHeaders().get("foo").getClass(), ArrayProperty.class);
         assertEquals(((ArrayProperty) responses6.get("203").getHeaders().get("foo")).getUniqueItems(), Boolean.TRUE);
-        assertEquals(responses6.get("403").getSchema().getClass(), ArrayProperty.class);
+        assertEquals(responses6.get("403").getResponseSchema().getClass(), ArrayModel.class);
     }
 
     @Test(description = "scan a resource with inner class")
