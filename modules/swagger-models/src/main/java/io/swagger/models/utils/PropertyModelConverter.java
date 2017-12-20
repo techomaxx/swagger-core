@@ -50,7 +50,9 @@ public class PropertyModelConverter {
                 mapProperty.setAdditionalProperties(m.getAdditionalProperties());
                 return mapProperty;
             }
+
             Property property = propertyByType(m);
+
             if(property instanceof ObjectProperty){
                 ObjectProperty objectProperty = (ObjectProperty) property;
                 objectProperty.setProperties(model.getProperties());
