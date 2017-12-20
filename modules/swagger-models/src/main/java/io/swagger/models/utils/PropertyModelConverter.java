@@ -151,10 +151,10 @@ public class PropertyModelConverter {
         String format = property.getFormat();
         String example = null;
 
-        Object obj = property.getExample();
+        /*Object obj = property.getExample();
         if (obj != null) {
             example = obj.toString();
-        }
+        }*/
 
         Boolean allowEmptyValue = property.getAllowEmptyValue();
 
@@ -204,7 +204,7 @@ public class PropertyModelConverter {
         ModelImpl model = new ModelImpl();
 
         model.setDescription(description);
-        model.setExample(example);
+        model.setExample(property.getExample());//example
         model.setName(name);
         model.setXml(xml);
         model.setType(type);
