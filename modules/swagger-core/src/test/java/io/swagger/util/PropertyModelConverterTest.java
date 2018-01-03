@@ -493,43 +493,6 @@ public class PropertyModelConverterTest {
     }
 
     @Test
-    public void testExample()throws Exception{
-        final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-        final JsonNode rootNode = mapper.readTree(Files.readAllBytes(java.nio.file.Paths.get(getClass().getResource("/specFiles/responses.yaml").toURI())));
-
-
-        String specAsYaml = rootNode.toString();
-
-        Swagger swagger = Yaml.mapper().readValue(specAsYaml, Swagger.class);
-
-        Path string  = swagger.getPaths().get("/user");
-        Operation operation = string.getOperations().get(0);
-        Response response = operation.getResponses().get("200");
-        Property property = response.getSchema();
-
-        PropertyModelConverter converter = new PropertyModelConverter();
-        Model convertedModel = converter.propertyToModel(property);
-
-        Assert.assertTrue(convertedModel instanceof ModelImpl);
-        ModelImpl model = (ModelImpl) convertedModel;
-        Assert.assertEquals(model.getType(),"object");
-        Json.prettyPrint(model);
-        Assert.assertEquals(model.getExample(),"{\n" +
-                "  \"obj\" : {\n" +
-                "    \"b\" : \"ho\",\n" +
-                "    \"a\" : \"hey\"\n" +
-                "  },\n" +
-                "  \"arr\" : [ \"hey\", \"ho\" ],\n" +
-                "  \"double\" : 1.2,\n" +
-                "  \"int\" : 42,\n" +
-                "  \"biginteger\" : 118059162071741130342442,\n" +
-                "  \"long\" : 1099511627776,\n" +
-                "  \"boolean\" : true,\n" +
-                "  \"string\" : \"Arthur Dent\"\n" +
-                "}");
-    }
-
-    @Test
     public void convertStringRefProperty()throws Exception{
         final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         final JsonNode rootNode = mapper.readTree(Files.readAllBytes(java.nio.file.Paths.get(getClass().getResource("/specFiles/responses.yaml").toURI())));
